@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Apr 13, 2016 4:07:46 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="entity.Category" lazy="false" table="category">
+        <id name="categoryid" type="int">
+            <column name="categoryid"/>
+            <generator class="native"/>
+        </id>
+        <property name="name" type="java.lang.String" lazy="false">
+        <column name="name" />
+    </property>
+
+        <set name="books" cascade="save-update" table="bookscategory" inverse="true" lazy="false" fetch="join">
+            <key>
+                <column name="categoryid" not-null="true"/>
+            </key>
+            <many-to-many class="entity.Book" column="bookid"/>
+        </set>
+    </class>
+</hibernate-mapping>

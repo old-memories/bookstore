@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation=
+               "http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <!--注解支持  -->
+    <context:annotation-config />
+    <!--让Spring扫描的包  -->
+    <context:component-scan base-package="act.*"/>
+
+    <bean id="mongoDBManager" class="util.MongoDBManager">
+        <property name="hostname" value="localhost"/>
+        <property name="port" value="27017"/>
+        <property name="database" value="bookstore"/>
+    </bean>
+
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/bookstore" />
+        <property name="username" value="root" />
+        <property name="password" value="123456" />
+    </bean>
+
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="configLocation" value="classpath:hibernate.cfg.xml" />
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="*" read-only="false"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <tx:annotation-driven />
+
+    <bean id="BookDao" class="dao.impl.BookDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="UserDao" class="dao.impl.UserDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="mongo" ref="mongoDBManager"/>
+    </bean>
+
+    <bean id="OrderDao" class="dao.impl.OrderDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="ImageDao" class="dao.impl.ImageDaoImpl">
+        <property name="mongo" ref="mongoDBManager"/>
+    </bean>
+
+
+
+
+    <bean id="AuthService" class="service.impl.AuthServiceImpl">
+        <property name="userDao" ref="UserDao" />
+    </bean>
+    <bean id="BookService" class="service.impl.BookServiceImpl">
+        <property name="bookDao" ref="BookDao"/>
+    </bean>
+    <bean id="UserService" class="service.impl.UserServiceImpl">
+        <property name="userDao" ref="UserDao"/>
+    </bean>
+    <bean id="CartService" class="service.impl.CartServiceImpl">
+        <property name="bookDao" ref="BookDao"/>
+    </bean>
+    <bean id="OrderService" class="service.impl.OrderServiceImpl">
+        <property name="orderDao" ref="OrderDao"/>
+        <property name="bookDao" ref="BookDao"/>
+    </bean>
+    <bean id="ImageService" class="service.impl.ImageServiceImpl">
+        <property name="imageDao" ref="ImageDao"/>
+    </bean>
+
+
+</beans>

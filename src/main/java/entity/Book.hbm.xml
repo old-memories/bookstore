@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Apr 13, 2016 4:07:46 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="entity.Book"  lazy="false" table="book">
+        <id name="bookid" type="int" access="field">
+            <column name="bookid"/>
+            <generator class="native"/>
+        </id>
+        <property generated="never" lazy="false" name="bookname" type="java.lang.String">
+            <column name="bookname"/>
+        </property>
+        <property generated="never" lazy="false" name="author" type="java.lang.String">
+            <column name="author"/>
+        </property>
+        <property generated="never" lazy="false" name="price" type="int">
+            <column name="price"/>
+        </property>
+        <property generated="never" lazy="false"  name="imageid" type="java.lang.String">
+            <column name="imageid" />
+        </property>
+
+        <set name="category" cascade="all" table="bookscategory" inverse="false" lazy="false" fetch="join">
+            <key>
+            <column name="bookid" not-null="true"/>
+            </key>
+            <many-to-many class="entity.Category" column="categoryid"/>
+        </set>
+    </class>
+</hibernate-mapping>

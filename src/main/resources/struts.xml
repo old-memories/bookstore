@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <constant name="struts.devMode" value="true" />
+    <constant name="struts.objectFactory" value="spring"/>
+
+
+
+
+
+
+
+
+
+
+
+
+    <package name="default" extends="struts-default">
+        <default-action-ref name="noAction"></default-action-ref>
+        <action name="index" class="act.Index" method="index">
+            <result name="success">/index.jsp</result>
+        </action>
+        <action name="register">
+            <result>/register.jsp</result>
+        </action>
+        <action name="noAction">
+            <result type="redirect">/index</result>
+        </action>
+    </package>
+
+
+
+
+
+
+
+
+
+    <package name="auth" extends="struts-default" namespace="/auth">
+        <default-action-ref name="action_login"></default-action-ref>
+        <action name="action_*" class="act.Auth" method="{1}">
+            <result  type="redirect" name="success">/index</result>
+            <result name="input">/login.jsp</result>
+            <result name="reg">/register.jsp</result>
+        </action>
+    </package>
+
+
+
+
+
+    <package name="item" extends="struts-default,json-default" namespace="/item">
+        <action name="action_*" class="act.Item" method="{1}">
+            <result name="success">/show_item.jsp</result>
+            <result name="search">/show_all_books.jsp</result>
+            <result name="booksOfCategory">/show_all_books.jsp</result>
+            <result name="ajax" type="json">
+                <param name="root">dataMap</param>
+            </result>
+        </action>
+    </package>
+
+
+
+    <package name="user" extends="struts-default" namespace="/user">
+        <interceptors>
+            <interceptor name="isLogin" class="act.interceptor.isLogin"/>
+        </interceptors>
+        <action name="action_*" class="act.UserAct" method="{1}">
+            <result name="update_profile" type="redirect">/user/action_getUserProfile</result>
+            <result name="show_profile">/my_profile.jsp</result>
+            <result name="login" type="redirect"> /login.jsp </result>
+            <interceptor-ref name="defaultStack"/>
+            <interceptor-ref name="isLogin"/>
+        </action>
+
+    </package>
+
+
+
+
+
+
+
+
+
+
+
+    <package name="cart" extends="struts-default,json-default" namespace="/cart">
+        <action name="action_*" class="act.CartAct" method="{1}">
+            <result name="ajax" type="json">
+                <param name="root">dataMap</param>
+            </result>
+        </action>
+    </package>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <package name="order" extends="struts-default,json-default" namespace="/order">
+        <interceptors>
+            <interceptor name="isLogin" class="act.interceptor.isLogin"></interceptor>
+        </interceptors>
+        <action name="action_*" class="act.OrderAct" method="{1}">
+            <result name="success">/show_orders.jsp</result>
+            <result name="created">/pay.jsp</result>
+            <result name="confirmed" type="redirect">/order/action_getUserOrders</result>
+            <result name="login" type="redirect"> /login.jsp </result>
+            <result name="fail" type="redirect">/index</result>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+            <interceptor-ref name="isLogin"></interceptor-ref>
+        </action>
+    </package>
+
+
+
+
+    <package name="image" extends="struts-default" namespace="/image">
+    <action name="action_*" class="act.ImageAct" method="{1}">
+        <result name="success">/index</result>
+        <result name="upload_image" type="redirect">/user/action_getUserProfile</result>
+        <result name="fail" type="redirect">/index</result>
+
+    </action>
+    </package>
+
+
+
+
+
+
+
+
+    <package name="admin" extends="struts-default,json-default" namespace="/admin">
+
+        <interceptors>
+            <interceptor name="isAdmin" class="act.interceptor.isAdmin"></interceptor>
+            <interceptor-stack name="adminAuthCheck">
+                <interceptor-ref name="isAdmin"></interceptor-ref>
+                <interceptor-ref name="defaultStack"></interceptor-ref>
+            </interceptor-stack>
+        </interceptors>
+
+        <default-interceptor-ref name="adminAuthCheck"></default-interceptor-ref>
+        <default-action-ref name="default"></default-action-ref>
+
+        <global-results>
+            <result name="403" type="redirect">/403.jsp</result>
+            <result name="login" type="redirect">/login.jsp</result>
+        </global-results>
+
+
+
+        <action name="default">
+            <result>/admin/dashboard.jsp</result>
+        </action>
+        <action name="action_*" class="act.AdminAct" method="{1}">
+            <result name="user">/admin/userAdmin.jsp</result>
+            <result name="book">/admin/bookAdmin.jsp</result>
+            <result name="category">/admin/categoryAdmin.jsp</result>
+            <result name="order">/admin/orderAdmin.jsp</result>
+
+        </action>
+
+
+        <action name="orders_*" class="act.OrderAct" method="{1}">
+            <result name="ajax" type="json">
+                <param name="root">dataMap</param>
+            </result>
+        </action>
+
+        <action name="books_*" class="act.Item" method="{1}">
+            <result name="ajax" type="json">
+                <param name="root">dataMap</param>
+            </result>
+            <result name="create">/admin/createBook.jsp</result>
+            <result name="saved_book">/admin/bookAdmin.jsp</result>
+        </action>
+
+        <action name="users_*" class="act.UserAct" method="{1}">
+            <result name="ajax" type="json">
+                <param name="root">dataMap</param>
+            </result>
+
+        </action>
+
+        <action name="categories_*" class="act.Item" method="{1}">
+            <result name="ajax" type="json">
+                <param name="root">dataMap</param>
+            </result>
+
+        </action>
+
+
+
+    </package>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <constant name="struts.enable.DynamicMethodInvocation" value="false"></constant>
+
+
+
+
+</struts>

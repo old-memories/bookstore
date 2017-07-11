@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Apr 13, 2016 4:07:46 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="entity.Order" lazy="false" table="orders">
+        <id name="orderid" type="int">
+            <column name="orderid"/>
+            <generator class="native"/>
+        </id>
+        <many-to-one name="user" class="entity.User" fetch="join" lazy="false">
+            <column name="userid" />
+        </many-to-one>
+
+
+
+        <property name="tot_price" type="int" lazy="false">
+            <column name="tot_price" />
+        </property>
+        <property name="pucharsed"  type="char" lazy="false">
+            <column name="pucharsed" />
+        </property>
+        <set name="books" table="booksorder" lazy="false" fetch="join">
+            <key column="orderid" not-null="true"/>
+            <composite-element class="entity.BooksOrder">
+                <many-to-one name="book" class="entity.Book" lazy="false" fetch="join">
+                    <column name="bookid"></column>
+                </many-to-one>
+                <property name="amount" column="amount"/>
+            </composite-element>
+        </set>
+    </class>
+</hibernate-mapping>
