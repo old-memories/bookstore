@@ -22,7 +22,7 @@ public interface BookService {
     boolean saveCategory(Category category);
     boolean updateCategory(Category Category);
     boolean destroyCategory(int categoryid);
-    boolean saveBook(Book book,String myFileFileName);
+    boolean saveBook(Book book);
     boolean updateBook(Book book);
     boolean destroyBook(int bookid);
 

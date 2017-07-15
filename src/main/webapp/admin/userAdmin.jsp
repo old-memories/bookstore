@@ -109,6 +109,7 @@
         <th field="username" width="20%">username</th>
         <th field="password" width="20%">password</th>
         <th field="role" width="15%">role</th>
+        <th field="profileid" width="20%">profileid</th>
 
     </tr>
     </thead>
@@ -137,6 +138,10 @@
         <div class="fitem">
             <label>role:</label>
             <input name="user.role" id="role" class="easyui-textbox" required="true">
+        </div>
+        <div class="fitem">
+            <label>proflieid:</label>
+            <input name="user.profileid" id="profileid" class="easyui-textbox" required="true">
         </div>
     </form>
 </div>

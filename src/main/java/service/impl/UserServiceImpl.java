@@ -31,6 +31,7 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional(readOnly=false)
     public boolean saveUser(User user){
+        user.setProfileid("");
         return userDao.save(user);
     }
 

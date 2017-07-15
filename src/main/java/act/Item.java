@@ -249,7 +249,7 @@ public class Item extends ActionSupport{
 
             /* save book(with imageid(MD5)) in mysql */
             System.out.println("saving book");
-            bookService.saveBook(book,myFileFileName);
+            bookService.saveBook(book);
 
         return "saved_book";
     }

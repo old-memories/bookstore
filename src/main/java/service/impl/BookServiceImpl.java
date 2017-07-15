@@ -53,11 +53,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional(readOnly=false)
-    public boolean saveBook(Book book,String myFileFileName){
-        Date dt = new Date();
-        String newFileName = book.getBookname() + "-" + dt.getTime() + myFileFileName;
-        String filenameMD5 = MD5Generator.stringMD5(newFileName);
-        book.setImageid(filenameMD5);
+    public boolean saveBook(Book book){
         return bookDao.save(book);
     }
 
