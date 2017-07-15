@@ -275,7 +275,7 @@ public class Item extends ActionSupport{
     }
 
     public String showBookByid(){
-
+        ActionContext.getContext().put("category",bookService.getAllCategory());
         ActionContext.getContext().put("book",bookService.showBookByid(bookid));
         ActionContext.getContext().put("book_category",bookService.getCategoriesOfBookByid(bookid));
         return "success";

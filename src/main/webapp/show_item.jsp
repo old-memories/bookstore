@@ -151,33 +151,17 @@
         </ul>
     </div> <!-- end of menu -->
 
-    <div id="templatemo_header">
-        <div id="templatemo_special_offers">
-            <p>
-                <span>25%</span> discounts for
-                purchase over $ 40
-            </p>
-            <a href="#" style="margin-left: 50px;">Read more...</a>
-        </div>
 
-
-        <div id="templatemo_new_books">
-            <ul>
-                <li>Suspen disse</li>
-                <li>Maece nas metus</li>
-                <li>In sed risus ac feli</li>
-            </ul>
-            <a href="#" style="margin-left: 50px;">Read more...</a>
-        </div>
-    </div> <!-- end of header -->
 
     <div id="templatemo_content">
 
         <div id="templatemo_content_left">
             <div class="templatemo_content_left_section">
-                <h1>Genre</h1>
+                <h1>Category</h1>
                 <ul>
-
+                    <s:iterator value="#category" status="stat">
+                        <li><a href="<%=path%>/item/action_showBooksOfCategoryByid?categoryid=<s:property value="categoryid"/>&categoryName=<s:property value="name"/>"><s:property value="name"/></a></li>
+                    </s:iterator>
                 </ul>
             </div>
 

@@ -49,13 +49,13 @@
 
     <div id="templatemo_header">
         <div id="templatemo_special_offers">
-
+            <p>4th Iteration Of Bookstore</p>
         </div>
 
 
         <div id="templatemo_new_books">
             <ul>
-
+                Homework Of Zhang Zi Yang
             </ul>
         </div>
     </div> <!-- end of header -->

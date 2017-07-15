@@ -50,17 +50,6 @@
 
     <div id="templatemo_content">
 
-        <div id="templatemo_content_left">
-            <div class="templatemo_content_left_section">
-                <h1>Genre</h1>
-                <ul>
-
-                </ul>
-            </div>
-
-
-
-        </div> <!-- end of content left -->
 
         <div id="templatemo_content_right">
             <h1>&nbsp&nbsp>&nbsp&nbspmy orders</h1>
